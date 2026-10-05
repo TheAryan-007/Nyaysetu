@@ -1,0 +1,78 @@
+{
+  "judgments": [
+    {
+      "id": "J-001",
+      "title": "State of Maharashtra vs. Suresh Kumar",
+      "court": "Supreme Court of India",
+      "year": 2023,
+      "snippet": "The appellant was convicted under Section 420 of the IPC for cheating and dishonestly inducing delivery of property.",
+      "text": "Full text of the judgment goes here... The appellant, Suresh Kumar, was accused of floating a fake investment scheme and defrauding 50 investors of Rs. 2 Crores. The trial court convicted him under Sec 420. The High Court upheld the conviction. The Supreme Court finds no error in the High Court's judgment. The evidence clearly establishes the intention to cheat from the inception.",
+      "sections": ["IPC 420", "IPC 406", "BNS 318(4)"],
+      "cited_cases": ["Ram Chander vs State (1998)", "K. Sharma vs Union of India (2005)"],
+      "score": 0.95
+    },
+    {
+      "id": "J-002",
+      "title": "Anita Sharma vs. Rajesh Sharma",
+      "court": "High Court of Delhi",
+      "year": 2021,
+      "snippet": "A case regarding cruelty by husband and relatives under IPC 498A.",
+      "text": "The wife filed an FIR alleging physical and mental torture for dowry. The husband argued the allegations are vague and an afterthought. The court observed that the medical reports support the claims of physical abuse. Anticipatory bail was rejected.",
+      "sections": ["IPC 498A", "BNS 85", "Dowry Prohibition Act Sec 3"],
+      "cited_cases": ["Arnesh Kumar vs State of Bihar (2014)"],
+      "score": 0.88
+    },
+    {
+      "id": "J-003",
+      "title": "Ramesh Builders vs. Union Bank",
+      "court": "Supreme Court of India",
+      "year": 2019,
+      "snippet": "Civil dispute regarding breach of contract and recovery of dues.",
+      "text": "The respondent bank initiated proceedings under the SARFAESI Act for non-payment of a loan. The builder contested the classification of the account as NPA. The court held that the bank followed due procedure.",
+      "sections": ["SARFAESI Act Sec 13", "Contract Act Sec 73"],
+      "cited_cases": ["Mardia Chemicals vs Union of India (2004)"],
+      "score": 0.72
+    }
+  ],
+  "advocates": [
+    {
+      "id": "ADV-101",
+      "name": "Priya Ranjan",
+      "city": "New Delhi",
+      "specialization": "Criminal Defense, Family Law",
+      "experience": "12 years",
+      "contact": "priya.ranjan@example.com"
+    },
+    {
+      "id": "ADV-102",
+      "name": "Amit Desai",
+      "city": "Mumbai",
+      "specialization": "Corporate Law, Civil Litigation",
+      "experience": "20 years",
+      "contact": "amit.d@example.com"
+    }
+  ],
+  "user_cases": [
+    {
+      "id": "C-501",
+      "title": "Property Dispute - Plot 4A",
+      "court": "District Court, Delhi",
+      "status": "Ongoing",
+      "next_hearing": "2024-11-15"
+    }
+  ],
+  "section_recommendations": [
+    {
+      "section": "BNS 318",
+      "title": "Cheating",
+      "confidence": 0.92,
+      "explanation": "Your text mentions someone taking money with false promises and running away, which directly maps to cheating under BNS 318 (formerly IPC 420)."
+    },
+    {
+      "section": "BNS 316",
+      "title": "Criminal Breach of Trust",
+      "confidence": 0.75,
+      "explanation": "There was an entrustment of property which was misappropriated."
+    }
+  ]
+}
