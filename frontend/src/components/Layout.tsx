@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Disclaimer } from './Disclaimer';
 import { LionStambh } from './LionStambh';
@@ -9,8 +9,14 @@ import { LogOut, Home, Briefcase, Scale, Search, Users, Cpu, Gavel, Clock, BookO
 export const Layout = () => {
   const { role, user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleLogout = () => {
+    logout();
+    navigate('/', { replace: true });
+  };
 
   if (!role) {
     return <Outlet />;
@@ -169,7 +175,7 @@ export const Layout = () => {
           
           <div className="p-4 border-t border-slate-700/50">
             <button 
-              onClick={logout} 
+              onClick={handleLogout} 
               className="flex items-center gap-3 p-3 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg w-full transition"
             >
               <LogOut className="h-5 w-5" /> Sign Out
