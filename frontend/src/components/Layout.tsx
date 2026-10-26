@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Disclaimer } from './Disclaimer';
 import { LionStambh } from './LionStambh';
@@ -19,6 +19,9 @@ export const Layout = () => {
   };
 
   if (!role) {
+    if (location.pathname !== '/') {
+      return <Navigate to="/" replace />;
+    }
     return <Outlet />;
   }
 

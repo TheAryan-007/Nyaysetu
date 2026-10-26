@@ -15,12 +15,18 @@ import {
   BookOpen, 
   FileCheck, 
   ChevronRight,
-  ShieldCheck,
-  HelpCircle
+  HelpCircle,
+  UploadCloud,
+  Printer,
+  FileText,
+  ShieldCheck
 } from 'lucide-react';
+import { DocumentUploadZone } from '../components/DocumentUploadZone';
+import { LegalNoticeModal } from '../components/LegalNoticeModal';
 
 export const AdvocateTools = () => {
-  const [activeTab, setActiveTab] = useState<'drafter' | 'fir' | 'crossexam'>('drafter');
+  const [activeTab, setActiveTab] = useState<'drafter' | 'notice' | 'evidence' | 'fir' | 'crossexam'>('drafter');
+  const [noticeModalOpen, setNoticeModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
   // Tab 1: Drafter State
@@ -203,38 +209,60 @@ export const AdvocateTools = () => {
       </div>
 
       {/* TOOL NAVIGATION TABS */}
-      <div className="flex border-b border-slate-200 bg-white rounded-t-xl px-4 pt-2 gap-2 shadow-xs">
+      <div className="flex border-b border-slate-200 bg-white rounded-t-xl px-4 pt-2 gap-2 shadow-xs overflow-x-auto">
         <button
           onClick={() => setActiveTab('drafter')}
-          className={`flex items-center gap-2 px-5 py-3 text-sm font-bold border-b-2 transition ${
+          className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition whitespace-nowrap cursor-pointer ${
             activeTab === 'drafter'
               ? 'border-orange-500 text-orange-600 bg-orange-50/30'
               : 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-50'
           }`}
         >
-          <FileSignature className="h-4 w-4" /> AI Legal Pleadings Drafter
+          <FileSignature className="h-4 w-4" /> AI Legal Pleadings
+        </button>
+
+        <button
+          onClick={() => setActiveTab('notice')}
+          className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition whitespace-nowrap cursor-pointer ${
+            activeTab === 'notice'
+              ? 'border-orange-500 text-orange-600 bg-orange-50/30'
+              : 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+          }`}
+        >
+          <FileText className="h-4 w-4 text-amber-600" /> Statutory Legal Notice
+        </button>
+
+        <button
+          onClick={() => setActiveTab('evidence')}
+          className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition whitespace-nowrap cursor-pointer ${
+            activeTab === 'evidence'
+              ? 'border-orange-500 text-orange-600 bg-orange-50/30'
+              : 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+          }`}
+        >
+          <FileCheck className="h-4 w-4 text-emerald-600" /> Sec 63 BSA Evidence Audit
         </button>
 
         <button
           onClick={() => setActiveTab('fir')}
-          className={`flex items-center gap-2 px-5 py-3 text-sm font-bold border-b-2 transition ${
+          className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition whitespace-nowrap cursor-pointer ${
             activeTab === 'fir'
               ? 'border-orange-500 text-orange-600 bg-orange-50/30'
               : 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-50'
           }`}
         >
-          <ShieldAlert className="h-4 w-4" /> FIR & Chargesheet Loophole Auditor
+          <ShieldAlert className="h-4 w-4 text-rose-600" /> FIR & Loophole Auditor
         </button>
 
         <button
           onClick={() => setActiveTab('crossexam')}
-          className={`flex items-center gap-2 px-5 py-3 text-sm font-bold border-b-2 transition ${
+          className={`flex items-center gap-2 px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition whitespace-nowrap cursor-pointer ${
             activeTab === 'crossexam'
               ? 'border-orange-500 text-orange-600 bg-orange-50/30'
               : 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-50'
           }`}
         >
-          <Scale className="h-4 w-4" /> Witness Cross-Exam Strategist
+          <Scale className="h-4 w-4 text-blue-600" /> Cross-Exam Strategist
         </button>
       </div>
 
@@ -629,6 +657,93 @@ export const AdvocateTools = () => {
           </div>
         </div>
       )}
+
+      {/* TAB 4: STATUTORY LEGAL NOTICE GENERATOR */}
+      {activeTab === 'notice' && (
+        <div className="bg-white p-6 rounded-b-xl lg:rounded-xl border border-slate-200 shadow-sm space-y-6 animate-in fade-in duration-300">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <FileText className="w-5 h-5 text-amber-600" />
+                <h3 className="text-lg font-bold text-[#0C2340]">Statutory Legal Demand Notice Generator</h3>
+              </div>
+              <p className="text-xs text-slate-500 mt-1">
+                Draft court-admissible pre-litigation notices under Section 138 NI Act 1881, Section 18 RERA, and Bharatiya Nyaya Sanhita (BNS) 2023.
+              </p>
+            </div>
+
+            <button
+              onClick={() => setNoticeModalOpen(true)}
+              className="bg-[#0C2340] hover:bg-[#1A365D] text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer shadow-xs shrink-0"
+            >
+              <Printer className="w-4 h-4 text-amber-300" />
+              <span>Open Fullscreen Notice Studio & Print</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:border-[#0C2340] transition cursor-pointer" onClick={() => setNoticeModalOpen(true)}>
+              <span className="text-[10px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded uppercase">Sec 138 NI Act</span>
+              <h4 className="font-bold text-sm text-[#0C2340] mt-2">Cheque Bounce Notice</h4>
+              <p className="text-xs text-slate-600 mt-1">Statutory 15-day demand notice for dishonoured banking instruments.</p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:border-[#0C2340] transition cursor-pointer" onClick={() => setNoticeModalOpen(true)}>
+              <span className="text-[10px] font-bold text-blue-800 bg-blue-100 px-2 py-0.5 rounded uppercase">Section 18 RERA</span>
+              <h4 className="font-bold text-sm text-[#0C2340] mt-2">Builder Handover Delay</h4>
+              <p className="text-xs text-slate-600 mt-1">Peremptory notice for flat possession delay and statutory MCLR interest.</p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:border-[#0C2340] transition cursor-pointer" onClick={() => setNoticeModalOpen(true)}>
+              <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded uppercase">Sec 318 BNS 2023</span>
+              <h4 className="font-bold text-sm text-[#0C2340] mt-2">Breach of Contract & Fraud</h4>
+              <p className="text-xs text-slate-600 mt-1">Notice of criminal breach of trust and cheating prior to magistrate filing.</p>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>Click <strong>"Open Fullscreen Notice Studio & Print"</strong> to edit client details, claim amounts, and generate ready-to-print legal notices.</span>
+            </div>
+            <button
+              onClick={() => setNoticeModalOpen(true)}
+              className="text-xs font-bold text-[#0C2340] underline hover:text-blue-900 cursor-pointer"
+            >
+              Launch Now &rarr;
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 5: ELECTRONIC EVIDENCE AUDIT & SEC 63 BSA */}
+      {activeTab === 'evidence' && (
+        <div className="bg-white p-6 rounded-b-xl lg:rounded-xl border border-slate-200 shadow-sm space-y-6 animate-in fade-in duration-300">
+          <div className="border-b border-slate-200 pb-4">
+            <div className="flex items-center gap-2">
+              <FileCheck className="w-5 h-5 text-emerald-600" />
+              <h3 className="text-lg font-bold text-[#0C2340]">Section 63 BSA Electronic Evidence Verifier</h3>
+            </div>
+            <p className="text-xs text-slate-500 mt-1">
+              Statutory verification of digital records, FIRs, forensic screenshots, and WhatsApp exports under Bharatiya Sakshya Adhiniyam, 2023.
+            </p>
+          </div>
+
+          {/* Embedded Document Upload Zone */}
+          <DocumentUploadZone />
+        </div>
+      )}
+
+      {/* Fullscreen Legal Notice Generator Modal */}
+      <LegalNoticeModal
+        isOpen={noticeModalOpen}
+        onClose={() => setNoticeModalOpen(false)}
+        initialCategory="Cheque Dishonour / Financial Default"
+        initialCaseText="The respondent issued dishonoured banking instruments and failed to pay dues within the statutory period."
+        initialClientName="Sh. Rajesh K. Sharma"
+        initialAmount="₹14,50,000"
+        initialJurisdiction="New Delhi"
+      />
 
     </div>
   );

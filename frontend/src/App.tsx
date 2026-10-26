@@ -55,25 +55,54 @@ const Landing = () => {
   };
 
   return (
-    <div className="w-full bg-[#0A192F]/[0.02] min-h-screen font-sans flex flex-col justify-between -m-8 text-slate-800">
+    <div className="w-full bg-[#f8fafc] min-h-screen font-sans flex flex-col justify-between text-slate-800 m-0 p-0 overflow-x-hidden">
       
-      {/* Top Official National Bar */}
-      <div className="bg-[#0C2340] text-white border-b-2 border-[#D4AF37] px-6 py-3 shadow-md">
+      {/* Top National Tricolor Accent Strip */}
+      <div className="h-1.5 w-full bg-gradient-to-r from-[#FF9933] via-[#FFFFFF] to-[#138808] shrink-0" />
+
+      {/* Official Government of India Top Header Strip */}
+      <div className="bg-[#07172B] text-slate-200 px-6 py-2 border-b border-slate-700/60 text-xs">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3 text-[11px] font-medium text-slate-300">
+            <span className="font-semibold text-white">भारत सरकार</span>
+            <span className="text-slate-500">•</span>
+            <span>Government of India</span>
+            <span className="text-slate-600">|</span>
+            <span className="text-slate-300">विधि एवं न्याय मंत्रालय • Ministry of Law & Justice</span>
+            <span className="text-slate-600 hidden md:inline">|</span>
+            <span className="text-amber-400/90 hidden md:inline font-mono">e-Courts Phase III Grid</span>
+          </div>
+
+          <div className="flex items-center gap-4 text-[11px]">
+            <span className="text-slate-300 hidden sm:inline">
+              National Legal Aid Helpline: <strong className="text-amber-300 font-mono text-xs">15100</strong> (24x7 Toll-Free)
+            </span>
+            <span className="text-slate-600 hidden sm:inline">|</span>
+            <span className="text-emerald-400 font-semibold flex items-center gap-1.5 font-mono">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              UIDAI e-Pramaan Live
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Primary National Portal Header Bar */}
+      <div className="bg-[#0C2340] text-white border-b-2 border-[#D4AF37] px-6 py-3.5 shadow-lg sticky top-0 z-30">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
           
           {/* Left: Lion Stambh + NyayaSetu + Indian Flag */}
-          <div className="flex items-center gap-3.5">
-            <div className="bg-white/10 p-1.5 rounded-lg border border-white/20 shadow-xs flex items-center justify-center">
-              <LionStambh size={38} monochrome className="text-amber-400" />
+          <div className="flex items-center gap-4">
+            <div className="bg-white/10 p-2 rounded-xl border border-white/20 shadow-xs flex items-center justify-center">
+              <LionStambh size={42} monochrome className="text-amber-400" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xl font-black text-white tracking-tight">NyayaSetu</span>
-                <span className="text-amber-400 font-serif font-bold text-sm tracking-wide">न्यायसेतु</span>
-                <IndianFlag width={26} height={17} />
+              <div className="flex items-center gap-2.5">
+                <span className="text-2xl font-black text-white tracking-tight">NyayaSetu</span>
+                <span className="text-amber-400 font-serif font-bold text-lg tracking-wide">न्यायसेतु</span>
+                <IndianFlag width={30} height={20} />
               </div>
               <p className="text-[11px] text-slate-300 font-medium tracking-wide">
-                National Legal Intelligence & Judicial Decision Support System • Government of India
+                National Legal Intelligence & Judicial Decision Support System • Department of Justice
               </p>
             </div>
           </div>
@@ -82,20 +111,20 @@ const Landing = () => {
           <div className="flex items-center gap-4 text-xs">
             <div className="hidden md:flex items-center gap-2 text-slate-300">
               <Calendar className="h-3.5 w-3.5 text-amber-400" />
-              <span className="text-[11px] font-mono">04-Oct-2026</span>
+              <span className="text-[11px] font-mono">26-Oct-2026</span>
               <span className="text-slate-600">|</span>
-              <span className="flex items-center gap-1 text-emerald-400 font-semibold text-[11px]">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                e-Courts Phase III Live
+              <span className="text-amber-300 font-semibold text-[11px] flex items-center gap-1">
+                <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+                NJDG Grid Connected
               </span>
             </div>
 
             <button
               onClick={() => handleOpenAuth('citizen')}
-              className="bg-[#1E3A8A] hover:bg-[#2563EB] text-white px-4 py-2 rounded-lg font-bold text-xs transition shadow-xs flex items-center gap-2 border border-blue-400/40"
+              className="bg-[#1E3A8A] hover:bg-[#2563EB] text-white px-5 py-2.5 rounded-xl font-bold text-xs transition shadow-md flex items-center gap-2 border border-blue-400/40 cursor-pointer"
             >
               <Lock className="h-3.5 w-3.5 text-amber-300" />
-              <span>Sign In / Register</span>
+              <span>Authorized Sign In / Register</span>
             </button>
           </div>
 
@@ -106,17 +135,17 @@ const Landing = () => {
       <div className="max-w-5xl mx-auto px-6 pt-10 pb-6 text-center">
         
         {/* Dignified Subheading */}
-        <div className="inline-flex items-center gap-2 bg-[#0C2340]/10 border border-[#0C2340]/20 px-3.5 py-1.5 rounded-full text-xs font-bold text-[#0C2340] mb-4 shadow-2xs">
+        <div className="inline-flex items-center gap-2 bg-[#0C2340]/10 border border-[#0C2340]/20 px-4 py-1.5 rounded-full text-xs font-bold text-[#0C2340] mb-4 shadow-2xs">
           <ShieldCheck className="h-4 w-4 text-[#0C2340]" />
-          <span>Statutory Compliance: Bharatiya Nyaya Sanhita (BNS) & Section 63 BSA 2023</span>
+          <span>Statutory Compliance: Bharatiya Nyaya Sanhita (BNS) & Section 63 BSA 2023 Electronic Evidence</span>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-black text-[#0C2340] tracking-tight leading-tight">
-          Unified Judicial Decision Support & Legal Intelligence
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0C2340] tracking-tight leading-tight">
+          Unified Judicial Decision Support & Legal Intelligence Grid
         </h1>
         
-        <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto mt-3 leading-relaxed">
-          Select your authorized portal below. Authenticate with official Government credentials (Aadhaar e-KYC, Bar Council Enrollment ID, or Judicial Cadre Token).
+        <p className="text-sm sm:text-base text-slate-600 max-w-3xl mx-auto mt-3.5 leading-relaxed">
+          National platform bridging Citizens, Bar Council Advocates, and the Judicial Bench. Authenticate with verified credentials (Aadhaar e-KYC, Bar Council of India Enrollment, or Judicial Cadre Token).
         </p>
 
       </div>
@@ -147,8 +176,9 @@ const Landing = () => {
               </div>
 
               {/* Title & Desc */}
-              <h3 className="text-xl font-bold text-[#0C2340] group-hover:text-blue-900 transition">
-                Citizen Portal
+              <h3 className="text-xl font-bold text-[#0C2340] group-hover:text-blue-900 transition flex items-baseline gap-2">
+                <span>Citizen Portal</span>
+                <span className="text-xs font-serif font-bold text-amber-600">नागरिक सेवा केंद्र</span>
               </h3>
               <p className="text-xs text-slate-500 font-medium mt-0.5">
                 Litigants, Undertrial Kin & Public Legal Aid
@@ -217,8 +247,9 @@ const Landing = () => {
               </div>
 
               {/* Title & Desc */}
-              <h3 className="text-xl font-bold text-[#0C2340] group-hover:text-blue-900 transition">
-                Advocate Chambers
+              <h3 className="text-xl font-bold text-[#0C2340] group-hover:text-blue-900 transition flex items-baseline gap-2">
+                <span>Advocate Chambers</span>
+                <span className="text-xs font-serif font-bold text-blue-700">अधिवक्ता प्रकोष्ठ</span>
               </h3>
               <p className="text-xs text-slate-500 font-medium mt-0.5">
                 Practicing Advocates & Legal Counsels
@@ -287,8 +318,9 @@ const Landing = () => {
               </div>
 
               {/* Title & Desc */}
-              <h3 className="text-xl font-bold text-[#0C2340] group-hover:text-blue-900 transition">
-                Judicial Bench
+              <h3 className="text-xl font-bold text-[#0C2340] group-hover:text-blue-900 transition flex items-baseline gap-2">
+                <span>Judicial Bench</span>
+                <span className="text-xs font-serif font-bold text-amber-600">न्यायिक पीठ</span>
               </h3>
               <p className="text-xs text-slate-500 font-medium mt-0.5">
                 Hon'ble Judges, Magistrates & NJDG Registrars
@@ -425,6 +457,13 @@ const Dashboard = () => {
   return <Navigate to="/" replace />;
 };
 
+// Protected Route Component ensuring clean redirect on logout or unauthorized URL access
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { role } = useAuth();
+  if (!role) return <Navigate to="/" replace />;
+  return <>{children}</>;
+};
+
 export default function App() {
   return (
     <AuthProvider>
@@ -432,17 +471,17 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Landing />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="search" element={<CitizenDashboard />} />
-            <Route path="tracker" element={<CaseTracker />} />
-            <Route path="advocates" element={<FindAdvocate />} />
-            <Route path="matters" element={<AdvocateMatters />} />
-            <Route path="tools" element={<AdvocateTools />} />
-            <Route path="docket" element={<JudgeDashboard />} />
-            <Route path="undertrials" element={<JudgeUndertrials />} />
-            <Route path="judge-tools" element={<JudgeTools />} />
-            <Route path="analytics" element={<DataScienceWorkbench />} />
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="search" element={<ProtectedRoute><CitizenDashboard /></ProtectedRoute>} />
+            <Route path="tracker" element={<ProtectedRoute><CaseTracker /></ProtectedRoute>} />
+            <Route path="advocates" element={<ProtectedRoute><FindAdvocate /></ProtectedRoute>} />
+            <Route path="matters" element={<ProtectedRoute><AdvocateMatters /></ProtectedRoute>} />
+            <Route path="tools" element={<ProtectedRoute><AdvocateTools /></ProtectedRoute>} />
+            <Route path="docket" element={<ProtectedRoute><JudgeDashboard /></ProtectedRoute>} />
+            <Route path="undertrials" element={<ProtectedRoute><JudgeUndertrials /></ProtectedRoute>} />
+            <Route path="judge-tools" element={<ProtectedRoute><JudgeTools /></ProtectedRoute>} />
+            <Route path="analytics" element={<ProtectedRoute><DataScienceWorkbench /></ProtectedRoute>} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
       </Router>
