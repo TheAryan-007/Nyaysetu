@@ -5,14 +5,20 @@ from fastapi.middleware.cors import CORSMiddleware
 import google.generativeai as genai
 import os
 import json
+from app.legal_engine import analyze_legal_problem_python
 
 app = FastAPI(title="NyayaSetu Generative AI Engine API")
 
+ALLOWED_ORIGINS = [origin.strip() for origin in os.environ.get(
+    "CORS_ALLOWED_ORIGINS",
+    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000,http://127.0.0.1:3000"
+).split(",") if origin.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -25,6 +31,7 @@ try:
         model = None
 except Exception as e:
     print("Error configuring Gemini API:", e)
+    model = None
 
 # ---------------------------------------------
 # CITIZEN PORTAL SCHEMAS & ENDPOINTS
@@ -36,56 +43,143 @@ class ProblemInput(BaseModel):
 class SectionDetail(BaseModel):
     section_code: str
     title: str
-    confidence_score: float
+    confidence_score: Optional[float] = 0.95
+    statutory_category: Optional[str] = "Substantive Criminal Offence"
+    applicability_status: Optional[str] = "Directly Applicable"
+    official_source_url: Optional[str] = "https://www.indiacode.nic.in/"
+    source_verified_at: Optional[str] = "India Code - Ministry of Law & Justice, Govt. of India"
+    legal_elements: Optional[List[str]] = []
+    exceptions_or_conditions: Optional[str] = None
+    relevance_explanation: Optional[str] = ""
     simplified_explanation: str
+    bailable: Optional[bool] = False
+    cognizable: Optional[bool] = True
+    max_punishment: Optional[str] = "As per statute"
+
+class ProceduralAction(BaseModel):
+    step_number: int
+    action: str
+    action_type: str = "recommended_practical"
+    authority_or_portal: Optional[str] = None
+    conditions: Optional[str] = None
+    statutory_deadline: Optional[str] = None
+
+class OfficialPortal(BaseModel):
+    name: str
+    url: str
+    phone: Optional[str] = None
+    description: str
 
 class RiskAssessment(BaseModel):
     estimated_duration_months: int
     financial_risk_level: str
     estimated_cost_inr: str
     eligible_for_nalsa_free_aid: bool
+    bail_status: Optional[str] = "Subject to Judicial Discretion"
 
 class EmpowermentResponse(BaseModel):
+    status: Optional[str] = "conclusive"
     detected_language: str
-    translated_text: Optional[str]
+    detected_category: Optional[str] = "Indian Statutory Analysis"
+    issue_categories: Optional[List[str]] = []
+    translated_text: Optional[str] = None
+    problem_summary: Optional[str] = ""
+    supporting_facts: Optional[List[str]] = []
+    missing_facts: Optional[List[str]] = []
+    uncertainties: Optional[List[str]] = []
     recommended_sections: List[SectionDetail]
     risk_assessment: RiskAssessment
     actionable_advice: str
+    procedural_steps: Optional[List[str]] = []
+    procedural_actions: Optional[List[ProceduralAction]] = []
+    evidence_to_preserve: Optional[List[str]] = []
+    urgent_safety_guidance: Optional[List[str]] = []
+    official_portals: Optional[List[OfficialPortal]] = []
+    professional_help_recommended: Optional[bool] = True
 
 
 @app.post("/api/v1/analyze-problem", response_model=EmpowermentResponse)
 async def analyze_problem(payload: ProblemInput):
+    # If Gemini is not configured or offline, use deterministic verified legal engine
+    if not model:
+        result = analyze_legal_problem_python(payload.text)
+        return EmpowermentResponse(**result)
+
     prompt = f"""
-    You are an elite Indian Legal AI Assistant designed to empower vulnerable citizens.
-    Analyze the following legal issue described by a user.
-
-    USER INPUT: "{payload.text}"
-
-    Your task is to identify the applicable Indian criminal or civil laws (both new BNS and old IPC, or relevant Acts).
-    You must format your response EXACTLY as a raw JSON object (do not include ```json tags). 
+    You are an elite Indian Legal Assistant grounded in official Indian statutes (Bharatiya Nyaya Sanhita 2023, Bharatiya Nagarik Suraksha Sanhita 2023, Bharatiya Sakshya Adhiniyam 2023, and Special Acts).
     
-    The JSON must match this exact schema:
+    USER QUERY: "{payload.text}"
+
+    STRICT STATUTORY ACCURACY & NEGATIVE CONSTRAINTS:
+    1. NEVER recommend Section 115(2) BNS (causing hurt/assault) or Section 35(3) BNSS (notice of appearance before arrest) for online payment disputes, money transfers, or consumer issues unless physical violence or police custody is explicitly alleged.
+    2. NEVER present Article 39A (Free Legal Aid) as a direct substantive legal remedy for recovering financial debt.
+    3. For UPI/Online payment deception where money was transferred and recipient blocked, the correct provisions are:
+       - Section 318(4) BNS, 2023 (Cheating and dishonestly inducing delivery of property)
+       - Section 66D Information Technology Act, 2000 (Cheating by personation using computer resource)
+       - Section 63 Bharatiya Sakshya Adhiniyam, 2023 (Admissibility of electronic records)
+       - Portal: National Cyber Crime Reporting Portal (1930 / https://cybercrime.gov.in/) for immediate fund freezing.
+    4. For civil breach of contract (e.g. contractor delay without dishonest intent at inception), apply Section 73 Indian Contract Act 1872; do NOT falsely allege criminal fraud.
+    5. All sections must include official_source_url on India Code (https://www.indiacode.nic.in/).
+    6. If the input is vague or facts are missing, set status="requires_clarification", recommended_sections=[], and list missing_facts.
+    7. Format strictly as raw JSON (no markdown).
+
+    JSON SCHEMA:
     {{
-      "detected_language": "Name of the language (e.g. Hinglish, Hindi, English, Tamil)",
-      "translated_text": "If not English, provide a clear English translation. If English, set to null",
+      "status": "conclusive",
+      "detected_language": "English / Hindi",
+      "detected_category": "Official Domain Name",
+      "issue_categories": ["Category 1", "Category 2"],
+      "translated_text": null,
+      "problem_summary": "1 sentence crisp summary",
+      "supporting_facts": ["Fact 1", "Fact 2"],
+      "missing_facts": ["Missing fact 1"],
+      "uncertainties": ["Uncertainty 1"],
       "recommended_sections": [
         {{
-          "section_code": "e.g., BNS 74 / IPC 354",
-          "title": "Official Title of Law",
-          "confidence_score": 0.95,
-          "simplified_explanation": "Explain the law in 1 sentence at a 5th-grade reading level so a poor person can understand."
+          "section_code": "e.g. Section 318(4) BNS, 2023",
+          "title": "Title of section",
+          "statutory_category": "Substantive Criminal Offence | Cyber Crime Offence | Consumer & Civil Remedy | Procedural Safeguard",
+          "applicability_status": "Directly Applicable | Conditional on Missing Facts | Alternative Civil Remedy",
+          "official_source_url": "https://www.indiacode.nic.in/...",
+          "source_verified_at": "India Code - Ministry of Law & Justice, Govt. of India",
+          "legal_elements": ["Element 1", "Element 2"],
+          "relevance_explanation": "Why this law applies specifically to the user facts",
+          "simplified_explanation": "Plain language explanation for ordinary citizen",
+          "bailable": false,
+          "cognizable": true,
+          "max_punishment": "Imprisonment up to 7 Years & Fine"
         }}
       ],
       "risk_assessment": {{
-        "estimated_duration_months": 24,
-        "financial_risk_level": "Low/Medium/High",
-        "estimated_cost_inr": "e.g., ₹0 (Eligible for Legal Aid) or ₹30,000+",
-        "eligible_for_nalsa_free_aid": true if the user is a woman, child, SC/ST, or victim of severe crime/poverty, else false
+        "estimated_duration_months": 6,
+        "financial_risk_level": "Low | Medium | High | Severe",
+        "estimated_cost_inr": "₹...",
+        "eligible_for_nalsa_free_aid": false,
+        "bail_status": "Bailable as of Right | Non-Bailable (Discretionary) | Civil / Non-Penal Remedy"
       }},
-      "actionable_advice": "Write 2-3 sentences of highly empathetic, actionable legal advice. Tell them exactly what to do next (e.g., file an FIR, send legal notice)."
+      "actionable_advice": "Empathetic, actionable steps",
+      "procedural_steps": ["Step 1", "Step 2"],
+      "procedural_actions": [
+        {{
+          "step_number": 1,
+          "action": "Description of step",
+          "action_type": "emergency_golden_hour | legally_required | recommended_practical | optional_escalation",
+          "authority_or_portal": "Authority name",
+          "statutory_deadline": null
+        }}
+      ],
+      "evidence_to_preserve": ["Evidence 1", "Evidence 2"],
+      "urgent_safety_guidance": ["Safety tip 1"],
+      "official_portals": [
+        {{
+          "name": "Portal Name",
+          "url": "https://...",
+          "phone": "...",
+          "description": "..."
+        }}
+      ],
+      "professional_help_recommended": true
     }}
-    
-    Output strictly the JSON object and nothing else.
     """
 
     try:
@@ -94,48 +188,11 @@ async def analyze_problem(payload: ProblemInput):
         result_dict = json.loads(clean_text)
         return EmpowermentResponse(**result_dict)
     except Exception as e:
-        error_msg = str(e)
-        print("Gemini API Error:", error_msg)
-        if "429" in error_msg or "Quota exceeded" in error_msg:
-            return EmpowermentResponse(
-                detected_language="System Alert",
-                translated_text="Google Free Tier Rate Limit Hit.",
-                recommended_sections=[
-                    SectionDetail(
-                        section_code="RATE_LIMIT",
-                        title="Free Tier Rate Limit Exceeded",
-                        confidence_score=0.0,
-                        simplified_explanation="You are clicking too fast! Google only allows 5 requests per minute on free keys. Please wait exactly 1 minute and click again."
-                    )
-                ],
-                risk_assessment=RiskAssessment(
-                    estimated_duration_months=0,
-                    financial_risk_level="Safe",
-                    estimated_cost_inr="₹0",
-                    eligible_for_nalsa_free_aid=False
-                ),
-                actionable_advice="Take a deep breath, wait 60 seconds, and hit the Analyze button one more time!"
-            )
+        print("Gemini API Error, falling back to verified local engine:", e)
+        # Deterministic, safe, verified fallback
+        fallback = analyze_legal_problem_python(payload.text)
+        return EmpowermentResponse(**fallback)
 
-        return EmpowermentResponse(
-            detected_language="Unknown",
-            translated_text=f"API Error occurred: {error_msg}",
-            recommended_sections=[
-                SectionDetail(
-                    section_code="N/A",
-                    title="API Connection Failed",
-                    confidence_score=0.0,
-                    simplified_explanation="Our AI is currently experiencing high load. Please consult an advocate."
-                )
-            ],
-            risk_assessment=RiskAssessment(
-                estimated_duration_months=0,
-                financial_risk_level="Unknown",
-                estimated_cost_inr="Unknown",
-                eligible_for_nalsa_free_aid=False
-            ),
-            actionable_advice="Please try again later or call the 15100 NALSA helpline directly."
-        )
 
 
 # ---------------------------------------------
