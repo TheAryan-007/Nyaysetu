@@ -1007,6 +1007,302 @@ const LEGAL_RULES: LegalDomainRule[] = [
       "Whether Investigating Officer has recorded written grounds under Section 35(1)."
     ],
     professionalHelpRecommended: true
+  },
+
+  // 9. PROPERTY ENCROACHMENT, ILLEGAL LAND ACQUISITION & BOUNDARY DISPUTES
+  {
+    domainId: "property_encroachment_land_dispute",
+    category: "Property Encroachment & Land Disputes (जमीन विवाद / अवैध कब्जा)",
+    issueCategories: [
+      "Property Encroachment & Illegal Dispossession",
+      "Civil Injunction & Status Quo (Order 39 CPC)",
+      "Criminal Trespass under Section 329 BNS"
+    ],
+    keywords: [
+      "land", "property", "acquire", "occupy", "illegal occupation", "encroach", 
+      "encroachment", "kabza", "khet", "plot", "village", "ancestral", "patwari", 
+      "registry", "khatauni", "boundary wall", "dispossess", "tehsildar", "sdm", 
+      "jamabandi", "zameen", "gaon", "boundary", "illegal construction", "disputed plot"
+    ],
+    negativeKeywords: ["upi", "consumer", "defective", "cheque bounce", "landlord", "tenant", "rent agreement", "unpaid rent"],
+    sections: [
+      {
+        section_code: "Section 329(3) BNS, 2023",
+        title: "Criminal Trespass & House-Trespass (replaces IPC 447)",
+        statutory_category: "Substantive Criminal Offence",
+        applicability_status: "Directly Applicable",
+        official_source_url: "https://www.indiacode.nic.in/handle/123456789/21735",
+        source_verified_at: "India Code - Ministry of Law & Justice, Govt. of India",
+        legal_elements: [
+          "Entering into or upon property in possession of another",
+          "Intent to commit an offense, intimidate, insult, or unlawfully take possession"
+        ],
+        relevance_explanation: "Directly penalizes unauthorized entry and criminal attempts to seize land or property.",
+        simplified_explanation: "Entering someone's land or house unlawfully with intent to intimidate or grab property. Bailable offense punishable with up to 3 months imprisonment or fine.",
+        bailable: true,
+        cognizable: true,
+        max_punishment: "3 Months Imprisonment or Fine"
+      },
+      {
+        section_code: "Order 39 Rules 1 & 2 CPC, 1908",
+        title: "Temporary Injunction & Direction for Status Quo against Illegal Dispossession",
+        statutory_category: "Consumer & Civil Remedy",
+        applicability_status: "Directly Applicable",
+        official_source_url: "https://www.indiacode.nic.in/handle/123456789/2191",
+        source_verified_at: "India Code - Ministry of Law & Justice, Govt. of India",
+        legal_elements: [
+          "Prima facie title or established physical possession",
+          "Balance of convenience in plaintiff's favor",
+          "Irreparable injury if injunction not granted"
+        ],
+        relevance_explanation: "The primary legal remedy to stop illegal construction or dispossession: a civil court order restraining the encroacher.",
+        simplified_explanation: "Court order directing the opposing party not to touch your land or alter its physical status until the dispute is decided.",
+        bailable: true,
+        cognizable: false,
+        max_punishment: "Civil Injunctive Restraint"
+      },
+      {
+        section_code: "Section 164 BNSS, 2023",
+        title: "Magistrate Direction Concerning Land Dispute Likely to Cause Breach of Peace (replaces Sec 145 CrPC)",
+        statutory_category: "Procedural Safeguard",
+        applicability_status: "Directly Applicable",
+        official_source_url: "https://www.indiacode.nic.in/handle/123456789/21736",
+        source_verified_at: "India Code - Ministry of Law & Justice",
+        legal_elements: [
+          "Dispute concerning land or boundaries likely to cause breach of peace",
+          "Sub-Divisional Magistrate (SDM) orders inquiry into actual possession"
+        ],
+        relevance_explanation: "Enables urgent administrative intervention by the SDM/Tehsildar to seal boundaries and prevent violent altercations.",
+        simplified_explanation: "Executive Magistrate (SDM) steps in to prevent physical violence and decides who was in peaceful possession.",
+        bailable: true,
+        cognizable: true,
+        max_punishment: "Magisterial Seal & Peace Bond"
+      },
+      {
+        section_code: "Section 318(4) BNS, 2023",
+        title: "Cheating with Forged Title Deeds or Illegal Registry (replaces IPC 420)",
+        statutory_category: "Substantive Criminal Offence",
+        applicability_status: "Conditional on Missing Facts",
+        official_source_url: "https://www.indiacode.nic.in/handle/123456789/21735",
+        source_verified_at: "India Code - Ministry of Law & Justice",
+        legal_elements: ["Fraudulent or forged deeds created to induce illegal transfer"],
+        exceptions_or_conditions: "Applies if the encroacher created forged mutation, fake power of attorney, or double registry.",
+        relevance_explanation: "Applicable if the encroacher is relying on counterfeit papers or forged revenue entries.",
+        simplified_explanation: "Fraudulent creation of fake property documents. Strictly cognizable and non-bailable.",
+        bailable: false,
+        cognizable: true,
+        max_punishment: "Imprisonment up to 7 Years & Fine"
+      }
+    ],
+    durationMonths: 18,
+    financialRisk: "Medium",
+    freeAidEligible: false,
+    bailStatus: "Compoundable",
+    actionableAdvice: "Under established Supreme Court law (Midnapur Zamindary and Yeshwant Singh doctrines), no person can be forcefully evicted or dispossessed without due process of law, even by a claimant. 1. Immediately approach the local Civil Court to file a Suit for Permanent Injunction with an urgent ex-parte stay application under Order 39 Rules 1 & 2 CPC. 2. File an urgent complaint with the Sub-Divisional Magistrate (SDM) under Section 164 BNSS to maintain status quo and avoid breach of peace. 3. If threats or forced entry are attempted, lodge a police complaint for Criminal Trespass under Section 329 BNS.",
+    proceduralActions: [
+      {
+        step_number: 1,
+        action: "Obtain certified revenue records (Khatauni, Jamabandi, Khasra map) and registered Sale Deed from the Sub-Registrar / Tehsil office.",
+        action_type: "recommended_practical"
+      },
+      {
+        step_number: 2,
+        action: "File an urgent application before the Sub-Divisional Magistrate (SDM) under Section 164 BNSS to prevent breach of peace and illegal construction.",
+        action_type: "legally_required",
+        authority_or_portal: "Sub-Divisional Magistrate (SDM) / Executive Magistrate Court"
+      },
+      {
+        step_number: 3,
+        action: "File a Civil Suit for Declaration & Permanent Injunction with an urgent stay application under Order 39 CPC before the Civil Judge (Junior Division).",
+        action_type: "legally_required",
+        authority_or_portal: "Civil Court having territorial jurisdiction"
+      },
+      {
+        step_number: 4,
+        action: "Lodge a written police complaint under Section 329(3) BNS for Criminal Trespass at the local police station.",
+        action_type: "conditional",
+        conditions: "Applicable if physical intrusion or demolition is attempted."
+      }
+    ],
+    evidenceToPreserve: [
+      "Original registered Sale Deed / Gift Deed / Title documents",
+      "Latest certified revenue extract (Khatauni / Khasra / Jamabandi) from Tehsil",
+      "Property tax receipts, electricity bills, and utility records showing continuous possession",
+      "Photographs and video recordings showing physical boundaries and any illegal construction attempts"
+    ],
+    safetyGuidance: [
+      "Do not engage in physical altercations or violence over land boundaries.",
+      "Always rely on court-ordered stay orders and revenue demarcation."
+    ],
+    officialPortals: [
+      {
+        name: "eCourts Services",
+        url: "https://ecourts.gov.in/",
+        description: "Official portal for tracking civil injunction suits and court order sheets."
+      },
+      {
+        name: "State Bhulekh / Land Records Portal",
+        url: "https://upbhulekh.gov.in/",
+        description: "Government land record verification and certified Khatauni portal."
+      }
+    ],
+    uncertainties: [
+      "Whether the opposing party has filed a revenue demarcation (Nishan-dehi) application.",
+      "Whether the land is agricultural (governed by State Revenue Code) or urban (governed by Civil Procedure Code)."
+    ],
+    professionalHelpRecommended: true
+  },
+
+  // 10. THEFT, BURGLARY & MOBILE / CHAIN SNATCHING
+  {
+    domainId: "theft_burglary_snatching",
+    category: "Theft & Snatching (चोरी / लूट / स्नैचिंग)",
+    issueCategories: [
+      "Theft of Moveable Property (BNS 303)",
+      "Snatching & Street Deprivation (BNS 304)",
+      "Zero FIR Registration & Device Blocking"
+    ],
+    keywords: [
+      "theft", "chori", "stolen", "steal", "thief", "chor", "chura", "snatch", 
+      "snatching", "mobile stolen", "purse stolen", "wallet stolen", "bike stolen", 
+      "car stolen", "robbery", "loot", "pickpocket", "house theft"
+    ],
+    negativeKeywords: ["upi fraud", "cheque bounce"],
+    sections: [
+      {
+        section_code: "Section 303(2) BNS, 2023",
+        title: "Theft of Property in Dwelling House or Open (replaces IPC 379/380)",
+        statutory_category: "Substantive Criminal Offence",
+        applicability_status: "Directly Applicable",
+        official_source_url: "https://www.indiacode.nic.in/handle/123456789/21735",
+        source_verified_at: "India Code - Ministry of Law & Justice, Govt. of India",
+        legal_elements: ["Dishonestly taking moveable property out of possession without consent"],
+        relevance_explanation: "Directly penalizes the theft of money, vehicles, mobile phones, or property.",
+        simplified_explanation: "Stealing moveable property without consent. Punishable with imprisonment up to 3 years or fine.",
+        bailable: false,
+        cognizable: true,
+        max_punishment: "3 Years Imprisonment & Fine"
+      },
+      {
+        section_code: "Section 304 BNS, 2023",
+        title: "Snatching / Forced Deprivation",
+        statutory_category: "Substantive Criminal Offence",
+        applicability_status: "Conditional on Missing Facts",
+        official_source_url: "https://www.indiacode.nic.in/handle/123456789/21735",
+        source_verified_at: "India Code - Ministry of Law & Justice",
+        legal_elements: ["Sudden, quick or forcible seizure of property from person"],
+        relevance_explanation: "Specialized new section enacted in BNS 2023 specifically punishing mobile and chain snatching.",
+        simplified_explanation: "Stringent new provision under BNS 2023 for chain or mobile snatching. Imprisonment up to 3 years and fine.",
+        bailable: false,
+        cognizable: true,
+        max_punishment: "3 Years Imprisonment & Fine"
+      },
+      {
+        section_code: "Section 173 BNSS, 2023",
+        title: "Mandatory Registration of Zero FIR",
+        statutory_category: "Procedural Safeguard",
+        applicability_status: "Procedural Safeguard",
+        official_source_url: "https://www.indiacode.nic.in/handle/123456789/21736",
+        source_verified_at: "India Code - Ministry of Law & Justice",
+        legal_elements: ["Police must register FIR irrespective of jurisdiction"],
+        relevance_explanation: "Guarantees your right to lodge an immediate FIR or e-FIR without jurisdictional runarounds.",
+        simplified_explanation: "Police cannot turn you away citing jurisdiction; they must register a Zero FIR immediately.",
+        bailable: true,
+        cognizable: true,
+        max_punishment: "Procedural Mandate"
+      }
+    ],
+    durationMonths: 6,
+    financialRisk: "Medium",
+    freeAidEligible: true,
+    bailStatus: "Non-Bailable (Discretionary)",
+    actionableAdvice: "Immediately lodge an e-FIR on your State Police portal or visit the nearest police station. For stolen mobile phones, block the IMEI number immediately on the Central Equipment Identity Register (sancharsaathi.gov.in) to prevent misuse.",
+    proceduralActions: [
+      {
+        step_number: 1,
+        action: "File an immediate e-FIR on the State Police portal or obtain stamped GD entry from nearest police station.",
+        action_type: "emergency_golden_hour"
+      },
+      {
+        step_number: 2,
+        action: "Block the device IMEI on Sanchar Saathi (CEIR - sancharsaathi.gov.in).",
+        action_type: "recommended_practical",
+        authority_or_portal: "https://sancharsaathi.gov.in/"
+      }
+    ],
+    evidenceToPreserve: ["Invoice with device IMEI/chassis number, General Diary acknowledgment copy."],
+    safetyGuidance: ["Do not attempt to chase armed thieves alone."],
+    officialPortals: [
+      {
+        name: "Sanchar Saathi (CEIR)",
+        url: "https://sancharsaathi.gov.in/",
+        description: "Department of Telecommunications portal to block lost/stolen mobile phones."
+      }
+    ],
+    uncertainties: ["Identity of suspect."],
+    professionalHelpRecommended: false
+  },
+
+  // 11. EMPLOYMENT & UNPAID WAGES
+  {
+    domainId: "employment_unpaid_wages",
+    category: "Employment & Unpaid Wages (वेतन विवाद / नौकरी)",
+    issueCategories: [
+      "Payment of Wages Act Claims",
+      "Wrongful Withholding of Salary",
+      "Labour Commissioner Conciliation"
+    ],
+    keywords: [
+      "salary", "wages", "unpaid salary", "not paying salary", "employer", 
+      "boss not paying", "delayed salary", "salary hold", "resigned salary", 
+      "full and final", "fnf", "gratuity", "pf withheld", "labour court"
+    ],
+    negativeKeywords: ["upi", "consumer", "refrigerator"],
+    sections: [
+      {
+        section_code: "Section 15 Payment of Wages Act, 1936",
+        title: "Claims Arising out of Deductions from Wages or Delay in Payment",
+        statutory_category: "Consumer & Civil Remedy",
+        applicability_status: "Directly Applicable",
+        official_source_url: "https://www.indiacode.nic.in/handle/123456789/2361",
+        source_verified_at: "India Code - Ministry of Labour and Employment",
+        legal_elements: ["Earned wages delayed or deducted without statutory authorization"],
+        relevance_explanation: "Directly governs the recovery of unpaid earned wages from an employer.",
+        simplified_explanation: "Statutory claim before the Labour Commissioner to recover withheld wages plus up to 10 times penalty.",
+        bailable: true,
+        cognizable: false,
+        max_punishment: "Wage Recovery + Up to 10x Compensation"
+      }
+    ],
+    durationMonths: 6,
+    financialRisk: "Low",
+    freeAidEligible: true,
+    bailStatus: "Civil / Non-Penal Remedy",
+    actionableAdvice: "Send a formal email notice to your company's HR and Managing Director demanding settlement of unpaid wages within 15 days. If they fail to pay, file a formal complaint online on the SAMADHAN portal (Ministry of Labour) or before the local Labour Commissioner.",
+    proceduralActions: [
+      {
+        step_number: 1,
+        action: "Send formal written wage demand notice via email to HR and Directors with salary computation.",
+        action_type: "recommended_practical"
+      },
+      {
+        step_number: 2,
+        action: "File online conciliation claim on SAMADHAN portal (samadhan.labour.gov.in) before Labour Commissioner.",
+        action_type: "legally_required",
+        authority_or_portal: "https://samadhan.labour.gov.in/"
+      }
+    ],
+    evidenceToPreserve: ["Offer letter, monthly salary slips, bank statement, resignation email."],
+    safetyGuidance: ["Keep copies of all employment records before company email access is revoked."],
+    officialPortals: [
+      {
+        name: "SAMADHAN Portal",
+        url: "https://samadhan.labour.gov.in/",
+        description: "Ministry of Labour portal for dispute resolution."
+      }
+    ],
+    uncertainties: ["Whether employment falls under 'workman' or managerial category."],
+    professionalHelpRecommended: true
   }
 ];
 

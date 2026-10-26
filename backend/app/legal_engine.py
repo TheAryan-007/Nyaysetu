@@ -754,6 +754,130 @@ def analyze_legal_problem_python(query: str) -> Dict[str, Any]:
             "professional_help_recommended": True
         }
 
+    # 13. Property Encroachment & Illegal Land Acquisition
+    has_property_kw = (
+        any(k in t_lower for k in ["illegal land", "acquire my land", "acquire land", "land grabbing", "occupy my land", "illegal occupation", "encroach", "encroachment", "kabza", "khet", "ancestral land", "patwari", "khatauni", "boundary wall", "dispossess", "tehsildar", "zameen", "gaon"])
+        or (re.search(r'\b(land|property|plot)\b', t_lower) and any(k in t_lower for k in ["acquire", "occupy", "village", "steal", "illegal", "grab", "encroach", "dispute", "ancestral", "possession"]))
+    )
+    if has_property_kw and not any(k in t_lower for k in ["landlord", "tenant", "rent", "water", "electricity", "upi", "consumer", "defective", "cheque bounce"]):
+        return {
+            "status": "conclusive",
+            "detected_language": "English / Hinglish",
+            "detected_category": "Property Encroachment & Land Disputes (जमीन विवाद / अवैध कब्जा)",
+            "issue_categories": [
+                "Property Encroachment & Illegal Dispossession",
+                "Civil Injunction & Status Quo (Order 39 CPC)",
+                "Criminal Trespass under Section 329 BNS"
+            ],
+            "translated_text": None,
+            "problem_summary": "Attempted illegal occupation, encroachment, or acquisition of agricultural/village land.",
+            "supporting_facts": [
+                "Dispute concerning land or boundary in village/locality.",
+                "Allegation of illegal attempt to acquire or occupy property."
+            ],
+            "missing_facts": [
+                "Whether you have registered Sale Deed / Khatauni in your name.",
+                "Whether physical possession has been disturbed or construction started."
+            ],
+            "uncertainties": [
+                "Whether the land is governed by the State Revenue Code (agricultural) or Civil Procedure Code (urban)."
+            ],
+            "recommended_sections": [
+                {
+                    "section_code": "Section 329(3) BNS, 2023",
+                    "title": "Criminal Trespass & House-Trespass (replaces IPC 447)",
+                    "statutory_category": "Substantive Criminal Offence",
+                    "applicability_status": "Directly Applicable",
+                    "official_source_url": "https://www.indiacode.nic.in/handle/123456789/21735",
+                    "source_verified_at": "India Code - Ministry of Law & Justice, Govt. of India",
+                    "legal_elements": ["Entering onto land/property in another's possession with intent to intimidate or grab"],
+                    "relevance_explanation": "Directly penalizes unauthorized physical intrusion and attempts to grab land.",
+                    "simplified_explanation": "Entering someone's land or house unlawfully with intent to intimidate or grab property. Bailable offense punishable with up to 3 months imprisonment or fine.",
+                    "bailable": True,
+                    "cognizable": True,
+                    "max_punishment": "3 Months Imprisonment or Fine"
+                },
+                {
+                    "section_code": "Order 39 Rules 1 & 2 CPC, 1908",
+                    "title": "Temporary Injunction & Direction for Status Quo against Illegal Dispossession",
+                    "statutory_category": "Consumer & Civil Remedy",
+                    "applicability_status": "Directly Applicable",
+                    "official_source_url": "https://www.indiacode.nic.in/handle/123456789/2191",
+                    "source_verified_at": "India Code - Ministry of Law & Justice, Govt. of India",
+                    "legal_elements": ["Prima facie title, balance of convenience, and prevention of irreparable injury"],
+                    "relevance_explanation": "Civil court injunction order restraining the encroacher from entering, constructing, or altering the land.",
+                    "simplified_explanation": "Court order directing the opposing party not to touch your land or alter its physical status until the dispute is decided.",
+                    "bailable": True,
+                    "cognizable": False,
+                    "max_punishment": "Civil Injunctive Restraint"
+                },
+                {
+                    "section_code": "Section 164 BNSS, 2023",
+                    "title": "Magistrate Direction Concerning Land Dispute Likely to Cause Breach of Peace (replaces Sec 145 CrPC)",
+                    "statutory_category": "Procedural Safeguard",
+                    "applicability_status": "Directly Applicable",
+                    "official_source_url": "https://www.indiacode.nic.in/handle/123456789/21736",
+                    "source_verified_at": "India Code - Ministry of Law & Justice",
+                    "legal_elements": ["Land dispute likely to cause breach of peace; SDM inquiry into actual possession"],
+                    "relevance_explanation": "Enables immediate administrative intervention by the SDM to seal boundaries and prevent violence.",
+                    "simplified_explanation": "Executive Magistrate (SDM) steps in to prevent physical violence and decides who was in peaceful possession.",
+                    "bailable": True,
+                    "cognizable": True,
+                    "max_punishment": "Magisterial Seal & Peace Bond"
+                }
+            ],
+            "risk_assessment": {
+                "estimated_duration_months": 18,
+                "financial_risk_level": "Medium",
+                "estimated_cost_inr": "Civil Court Fees",
+                "eligible_for_nalsa_free_aid": False,
+                "bail_status": "Civil / Non-Penal Remedy"
+            },
+            "actionable_advice": "Under established Supreme Court law, no person can be forcefully dispossessed from land without due legal process. 1. Immediately file a Civil Suit for Permanent Injunction with an urgent stay application under Order 39 Rules 1 & 2 CPC before the Civil Judge. 2. Submit an urgent application before the Sub-Divisional Magistrate (SDM) under Section 164 BNSS to maintain status quo and prevent breach of peace. 3. If physical trespass or intimidation is attempted, lodge a police complaint for Criminal Trespass under Section 329 BNS.",
+            "procedural_steps": [
+                "Obtain certified revenue records (Khatauni, Jamabandi, Khasra map) from Tehsil office",
+                "File an urgent representation before the Sub-Divisional Magistrate (SDM) under Section 164 BNSS",
+                "File a Civil Suit for Declaration & Injunction with stay application under Order 39 CPC",
+                "Lodge police complaint under Section 329 BNS for Criminal Trespass if boundary breach is attempted"
+            ],
+            "procedural_actions": [
+                {
+                    "step_number": 1,
+                    "action": "Obtain certified Khatauni / Jamabandi and registered title deeds from Tehsil / Sub-Registrar.",
+                    "action_type": "recommended_practical"
+                },
+                {
+                    "step_number": 2,
+                    "action": "File application before Sub-Divisional Magistrate (SDM) under Section 164 BNSS to prevent illegal occupation.",
+                    "action_type": "legally_required",
+                    "authority_or_portal": "Sub-Divisional Magistrate (SDM) Court"
+                },
+                {
+                    "step_number": 3,
+                    "action": "File Civil Injunction Suit with urgent stay application under Order 39 CPC before Civil Court.",
+                    "action_type": "legally_required",
+                    "authority_or_portal": "Jurisdictional Civil Court"
+                }
+            ],
+            "evidence_to_preserve": [
+                "Original registered Sale Deed / Gift Deed / Title documents",
+                "Latest certified revenue extract (Khatauni / Khasra / Jamabandi) from Tehsil",
+                "Photographs and video recordings showing physical boundaries and any illegal construction attempts"
+            ],
+            "urgent_safety_guidance": [
+                "Do not engage in physical altercations or armed confrontation over land boundaries.",
+                "Rely on court-ordered stay orders and revenue demarcation (Nishan-dehi)."
+            ],
+            "official_portals": [
+                {
+                    "name": "eCourts Services",
+                    "url": "https://ecourts.gov.in/",
+                    "description": "National judicial portal for tracking civil injunction suits."
+                }
+            ],
+            "professional_help_recommended": True
+        }
+
     # Fallback to Clarification (Zero Assault/Arrest Hallucinations!)
     return create_clarification_response(text)
 
