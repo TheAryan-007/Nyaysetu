@@ -22,6 +22,12 @@ import {
   Check
 } from 'lucide-react';
 import { OutcomeCharts } from '../components/OutcomeCharts';
+import { 
+  predictBailClient, 
+  estimateDurationClient, 
+  recommendAdvocatesClient, 
+  getModelMetricsClient 
+} from '../utils/mlEngineClient';
 
 export const DataScienceWorkbench = () => {
   const [activeTab, setActiveTab] = useState<'bail' | 'duration' | 'tfidf' | 'iltur' | 'metrics' | 'operations'>('bail');
@@ -305,38 +311,52 @@ export const DataScienceWorkbench = () => {
   // Run Bail Prediction
   const runBailPrediction = async () => {
     setBailLoading(true);
+    const params = {
+      bailable,
+      sentence_years: sentenceYears,
+      custody_days: custodyDays,
+      chargesheet_filed: chargesheet,
+      prior_convictions: priors,
+      vulnerable_demographic: vulnerable,
+      sec35_notice_violated: noticeViolated,
+      age
+    };
+
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/v1/ml/predict-bail`, {
-        bailable,
-        sentence_years: sentenceYears,
-        custody_days: custodyDays,
-        chargesheet_filed: chargesheet,
-        prior_convictions: priors,
-        vulnerable_demographic: vulnerable,
-        sec35_notice_violated: noticeViolated,
-        age
-      });
-      setBailResult(res.data);
-    } catch (err) {
-      console.error("ML Bail API error:", err);
-    } finally {
-      setBailLoading(false);
+      const res = await axios.post(`${API_BASE_URL}/api/v1/ml/predict-bail`, params, { timeout: 2000 });
+      if (res.data && res.data.bail_grant_probability_percent !== undefined) {
+        setBailResult(res.data);
+        setBailLoading(false);
+        return;
+      }
+    } catch {
+      // Cloud Vercel environment or backend timeout - execute in-browser client ML
     }
+
+    setBailResult(predictBailClient(params));
+    setBailLoading(false);
   };
 
   // Run Duration Estimation
   const runDurationEstimation = async () => {
+    const params = {
+      court_tier: courtTier,
+      witnesses,
+      district_backlog: backlogIndex,
+      complex_evidence: complexEvidence
+    };
+
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/v1/ml/estimate-duration`, {
-        court_tier: courtTier,
-        witnesses,
-        district_backlog: backlogIndex,
-        complex_evidence: complexEvidence
-      });
-      setDurationResult(res.data);
-    } catch (err) {
-      console.error(err);
+      const res = await axios.post(`${API_BASE_URL}/api/v1/ml/estimate-duration`, params, { timeout: 2000 });
+      if (res.data && res.data.estimated_duration_months !== undefined) {
+        setDurationResult(res.data);
+        return;
+      }
+    } catch {
+      // Cloud Vercel environment or backend timeout - execute in-browser client ML
     }
+
+    setDurationResult(estimateDurationClient(params));
   };
 
   // Run TF-IDF Recommendation
@@ -344,21 +364,31 @@ export const DataScienceWorkbench = () => {
     try {
       const res = await axios.post(`${API_BASE_URL}/api/v1/ml/recommend-advocates`, {
         query: queryText
-      });
-      setTfidfResult(res.data);
-    } catch (err) {
-      console.error(err);
+      }, { timeout: 2000 });
+      if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+        setTfidfResult(res.data);
+        return;
+      }
+    } catch {
+      // Cloud Vercel environment or backend timeout - execute in-browser client ML
     }
+
+    setTfidfResult(recommendAdvocatesClient(queryText));
   };
 
   // Fetch Empirical Model Metrics
   const fetchMetrics = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/v1/ml/metrics`);
-      setMetrics(res.data);
-    } catch (err) {
-      console.error(err);
+      const res = await axios.get(`${API_BASE_URL}/api/v1/ml/metrics`, { timeout: 2000 });
+      if (res.data && res.data.accuracy !== undefined) {
+        setMetrics(res.data);
+        return;
+      }
+    } catch {
+      // Cloud Vercel environment or backend timeout - execute in-browser client ML
     }
+
+    setMetrics(getModelMetricsClient());
   };
 
   useEffect(() => {
